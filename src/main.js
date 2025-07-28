@@ -49,6 +49,7 @@ async function handleSubmit(event) {
   try {
     const data = await getImagesByQuery(query, page);
     totalHits = data.totalHits;
+    console.log(data);
 
     if (data.hits.length === 0) {
       iziToast.error({
@@ -98,6 +99,15 @@ async function handleLoadMore() {
     createGallery(data.hits, true);
     await waitForAllImagesToLoad();
 
+    const firstCard = document.querySelector('.gallery-item');
+    if (firstCard) {
+      const cardHeight = firstCard.getBoundingClientRect().height;
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
+    }
+
     if (page * 15 >= totalHits) {
       hideLoadMoreButton();
       iziToast.info({
@@ -109,15 +119,14 @@ async function handleLoadMore() {
       showLoadMoreButton();
       enableLoadMoreButton();
     }
-
-    const card = document.querySelector('.gallery-item');
-    if (card) {
-      const { height } = card.getBoundingClientRect();
-      window.scrollBy({
-        top: height * 2,
-        behavior: 'smooth',
-      });
-    }
+    // const firstCard = document.querySelector('.gallery-item');
+    // if (firstCard) {
+    //   const cardHeight = firstCard.getBoundingClientRect().height;
+    //   window.scrollBy({
+    //     top: cardHeight * 2,
+    //     behavior: 'smooth',
+    //   });
+    // }
   } catch (error) {
     iziToast.error({
       message: 'An error occurred while fetching more images.',
