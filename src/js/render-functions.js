@@ -1,7 +1,12 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const loadMoreButton = document.querySelector('.more-btn');
+const loaderWrapper = document.querySelector('.loader-wrapper');
+console.log('loaderWrapper:', loaderWrapper);
+const simpleGallery = new SimpleLightbox('.gallery a', {});
 
 export function createGallery(images) {
   gallery.innerHTML = images
@@ -42,7 +47,7 @@ export function createGallery(images) {
         `
     )
     .join('');
-  let simpleGallery = new SimpleLightbox('.gallery a', {});
+
   simpleGallery.refresh();
 }
 
@@ -51,9 +56,26 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  loader.style.display = 'block';
+  loaderWrapper.style.display = 'flex';
 }
 
 export function hideLoader() {
-  loader.style.display = 'none';
+  // console.log('hideLoader called');
+  loaderWrapper.style.display = 'none';
+}
+
+export function disableLoadMoreButton() {
+  loadMoreButton.disabled = true;
+}
+
+export function enableLoadMoreButton() {
+  loadMoreButton.disabled = false;
+}
+
+export function showLoadMoreButton() {
+  loadMoreButton.style.display = 'block';
+}
+
+export function hideLoadMoreButton() {
+  loadMoreButton.style.display = 'none';
 }
